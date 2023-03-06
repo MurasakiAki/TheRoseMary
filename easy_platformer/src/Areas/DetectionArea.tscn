@@ -1,0 +1,8 @@
+[gd_scene format=2]
+
+[node name="DetectionArea" type="Node2D"]
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]

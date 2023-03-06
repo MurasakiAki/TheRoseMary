@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/Areas/MassStompArea.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Areas/HurtHitArea.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Enviroment/skill_stone.png" type="Texture" id=3]
+[ext_resource path="res://src/Enviroment/SkillStone.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Particles/RockDestructionParticles.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 6, 5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 5, 13.5 )
+
+[node name="SkillStone" type="Node2D"]
+z_index = -1
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -16 )
+texture = ExtResource( 3 )
+
+[node name="MassStompArea" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -18 )
+
+[node name="CollisionShape2D" parent="MassStompArea/StompHurtArea" index="0"]
+position = Vector2( 0, -8 )
+shape = SubResource( 1 )
+
+[node name="HurtHitArea" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, -16 )
+
+[node name="HurtArea" parent="HurtHitArea" index="0"]
+collision_layer = 1024
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="HurtHitArea/HurtArea" index="0"]
+position = Vector2( 0, 2.5 )
+shape = SubResource( 2 )
+
+[node name="HitArea" parent="HurtHitArea" index="1"]
+collision_layer = 512
+collision_mask = 8
+
+[node name="RockDestructionParticles" parent="." instance=ExtResource( 5 )]
+position = Vector2( 0, -5 )
+
+[connection signal="area_entered" from="MassStompArea/StompHurtArea" to="." method="_on_StompHurtArea_area_entered"]
+[connection signal="area_entered" from="HurtHitArea/HurtArea" to="." method="_on_HurtArea_area_entered"]
+
+[editable path="MassStompArea"]
+[editable path="HurtHitArea"]

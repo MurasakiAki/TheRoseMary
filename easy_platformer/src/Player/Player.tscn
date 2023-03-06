@@ -1,0 +1,324 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Assets/Player/player_movements.png" type="Texture" id=1]
+[ext_resource path="res://src/Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://src/Areas/HurtHitArea.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Areas/MassStompArea.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Player/player_basic_hit_effect.png" type="Texture" id=5]
+[ext_resource path="res://src/UI/HealthBar.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Areas/PickUpArea.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/Areas/PositionPoint.tscn" type="PackedScene" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 3, 7 )
+
+[sub_resource type="RectangleShape2D" id=22]
+extents = Vector2( 3, 7 )
+
+[sub_resource type="RectangleShape2D" id=23]
+extents = Vector2( 4.5, 4.5 )
+
+[sub_resource type="RectangleShape2D" id=24]
+extents = Vector2( 4, 1.5 )
+
+[sub_resource type="RectangleShape2D" id=27]
+extents = Vector2( 3, 7 )
+
+[sub_resource type="Animation" id=16]
+resource_name = "Attack"
+length = 0.3
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 24, 25, 27 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HurtHitArea/HitArea/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/2/type = "animation"
+tracks/2/path = NodePath("AnimationPlayer2")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"clips": PoolStringArray( "Hit" ),
+"times": PoolRealArray( 0.2 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HitSprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "Falling"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 17 ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=19]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 8 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HurtHitArea/HitArea/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("HitSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HitSprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "Run"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 11 ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "StartJumping"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 16, 17 ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "Hit"
+length = 0.1
+step = 0.025
+tracks/0/type = "value"
+tracks/0/path = NodePath("HitSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.025, 0.05, 0.075 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="Animation" id=26]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("HitSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HitSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[node name="Player" type="KinematicBody2D"]
+collision_mask = 2
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 0.95 )
+shape = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.16, 0.16 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 8
+vframes = 8
+frame = 8
+
+[node name="HitSprite" type="Sprite" parent="."]
+position = Vector2( 8.5, 0.5 )
+texture = ExtResource( 5 )
+hframes = 4
+
+[node name="HealthBar" parent="." instance=ExtResource( 6 )]
+position = Vector2( -153, -84 )
+
+[node name="HurtHitArea" parent="." instance=ExtResource( 3 )]
+
+[node name="HurtArea" parent="HurtHitArea" index="0"]
+collision_layer = 8
+collision_mask = 512
+
+[node name="CollisionShape2D" parent="HurtHitArea/HurtArea" index="0"]
+position = Vector2( 0, 1 )
+shape = SubResource( 22 )
+
+[node name="HitArea" parent="HurtHitArea" index="1"]
+collision_layer = 16
+collision_mask = 1024
+
+[node name="CollisionShape2D" parent="HurtHitArea/HitArea" index="0"]
+position = Vector2( 7.5, 0.5 )
+shape = SubResource( 23 )
+disabled = true
+
+[node name="MassStompArea" parent="." instance=ExtResource( 4 )]
+
+[node name="CollisionShape2D" parent="MassStompArea/StompArea" index="0"]
+position = Vector2( 0, 8 )
+shape = SubResource( 24 )
+disabled = true
+
+[node name="PickUpArea" parent="." instance=ExtResource( 7 )]
+
+[node name="CollisionShape2D" parent="PickUpArea/Area2D" index="0"]
+position = Vector2( 0, 1 )
+shape = SubResource( 27 )
+
+[node name="PositionPoint" parent="." instance=ExtResource( 8 )]
+
+[node name="Position2D" parent="PositionPoint" index="0"]
+position = Vector2( 0, 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+method_call_mode = 1
+anims/Attack = SubResource( 16 )
+anims/Falling = SubResource( 17 )
+anims/Idle = SubResource( 18 )
+anims/RESET = SubResource( 19 )
+anims/Run = SubResource( 20 )
+anims/StartJumping = SubResource( 21 )
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+anims/Hit = SubResource( 25 )
+anims/RESET = SubResource( 26 )
+
+[connection signal="area_entered" from="HurtHitArea/HurtArea" to="." method="_on_HurtArea_area_entered"]
+[connection signal="area_entered" from="PickUpArea/Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+
+[editable path="HealthBar"]
+[editable path="HurtHitArea"]
+[editable path="MassStompArea"]
+[editable path="PickUpArea"]
+[editable path="PositionPoint"]

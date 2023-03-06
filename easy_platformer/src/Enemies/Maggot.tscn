@@ -1,0 +1,150 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Assets/Enemy/maggot.png" type="Texture" id=1]
+[ext_resource path="res://src/Areas/HurtHitArea.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Areas/MassStompArea.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Enemies/Maggot.gd" type="Script" id=4]
+[ext_resource path="res://src/Areas/DetectionArea.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Particles/EnemyDeathEffect.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/Enemy/dead_maggot.png" type="Texture" id=7]
+[ext_resource path="res://src/Areas/PositionPoint.tscn" type="PackedScene" id=8]
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 77, 49 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 15.5, 3.25 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 15.5, 6 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 3, 3 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 9.5, 3 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "Crawl"
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 1 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 0 ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[node name="Maggot" type="KinematicBody2D"]
+z_index = -1
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 4 )
+
+[node name="DetectionArea" parent="." instance=ExtResource( 5 )]
+
+[node name="DetectionArea" parent="DetectionArea" index="0"]
+position = Vector2( 0, -6 )
+
+[node name="CollisionShape2D" parent="DetectionArea/DetectionArea" index="0"]
+shape = SubResource( 9 )
+
+[node name="MassStompArea" parent="." instance=ExtResource( 3 )]
+
+[node name="CollisionShape2D" parent="MassStompArea/StompHurtArea" index="0"]
+position = Vector2( 0.5, -8.75 )
+shape = SubResource( 5 )
+
+[node name="HurtHitArea" parent="." instance=ExtResource( 2 )]
+
+[node name="HurtArea" parent="HurtHitArea" index="0"]
+collision_layer = 1024
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="HurtHitArea/HurtArea" index="0"]
+position = Vector2( 0.5, -6 )
+shape = SubResource( 6 )
+
+[node name="HitArea" parent="HurtHitArea" index="1"]
+collision_layer = 512
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="HurtHitArea/HitArea" index="0"]
+position = Vector2( -12, -3 )
+shape = SubResource( 8 )
+
+[node name="PositionPoint" parent="." instance=ExtResource( 8 )]
+
+[node name="Position2D" parent="PositionPoint" index="0"]
+position = Vector2( -13, -3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1.5, -3 )
+shape = SubResource( 1 )
+
+[node name="EnemyDeathEffect" parent="." instance=ExtResource( 6 )]
+position = Vector2( 0, -3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -8 )
+texture = ExtResource( 1 )
+vframes = 3
+
+[node name="DeadSprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, -8 )
+texture = ExtResource( 7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+anims/Crawl = SubResource( 4 )
+anims/Idle = SubResource( 2 )
+anims/RESET = SubResource( 3 )
+
+[connection signal="body_entered" from="DetectionArea/DetectionArea" to="." method="_on_DetectionArea_body_entered"]
+[connection signal="body_exited" from="DetectionArea/DetectionArea" to="." method="_on_DetectionArea_body_exited"]
+[connection signal="area_entered" from="MassStompArea/StompHurtArea" to="." method="_on_StompHurtArea_area_entered"]
+[connection signal="area_entered" from="HurtHitArea/HurtArea" to="." method="_on_HurtArea_area_entered"]
+[connection signal="body_entered" from="HurtHitArea/HitArea" to="." method="_on_HitArea_body_entered"]
+
+[editable path="DetectionArea"]
+[editable path="MassStompArea"]
+[editable path="HurtHitArea"]
+[editable path="PositionPoint"]
