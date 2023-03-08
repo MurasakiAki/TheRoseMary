@@ -1,4 +1,6 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Particles/dust_particles.png" type="Texture" id=1]
 
 [node name="JumpParticles" type="Node2D"]
 
@@ -9,6 +11,7 @@ one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 lifetime_randomness = 1.0
+texture = ExtResource( 1 )
 emission_shape = 1
 emission_sphere_radius = 8.0
 gravity = Vector2( 0, 0 )
