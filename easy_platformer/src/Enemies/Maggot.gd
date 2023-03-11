@@ -1,25 +1,25 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var mass = 3.5
-export var health = 5
-export var speed = 20.0
-export var max_speed = 35.5
-export var gravity = 100.0
-export var dmg = 5
-export var knockback = 1000
-export var crit_rate = 0.1
-export var crit_mult = 1.5
+@export var mass = 3.5
+@export var health = 5
+@export var speed = 20.0
+@export var max_speed = 35.5
+@export var gravity = 100.0
+@export var dmg = 5
+@export var knockback = 1000
+@export var crit_rate = 0.1
+@export var crit_mult = 1.5
 
 
 enum {IDLE, MOVE}
 
-onready var DMG_TEXT_NODE = preload("res://src/UI/DamageText.tscn")
+@onready var DMG_TEXT_NODE = preload("res://src/UI/DamageText.tscn")
 
 var friction = mass * 40
 var dmg_taken
 var rng = RandomNumberGenerator.new()
 var state
-var velocity = Vector2.ZERO
+#var velocity = Vector2.ZERO
 var player: Node2D
 var is_dead = false
 var dead_texture = preload("res://Assets/Enemy/dead_maggot.png")
@@ -34,7 +34,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	knockback_vector = knockback_vector.move_toward(Vector2.ZERO, friction * delta)
-	knockback_vector = move_and_slide(knockback_vector)
+	set_velocity(knockback_vector)
+	move_and_slide()
+	knockback_vector = velocity
 
 func _process(delta: float) -> void:
 	
@@ -52,7 +54,9 @@ func idle_state(delta):
 	
 	velocity = velocity.move_toward(Vector2.ZERO, max_speed * delta)
 	velocity.y += mass * gravity * delta
-	velocity = move_and_slide(velocity)
+	set_velocity(velocity)
+	move_and_slide()
+	velocity = velocity
 	if(velocity == Vector2.ZERO):
 		$AnimationPlayer.play("Idle")
 
@@ -60,12 +64,12 @@ func move_state(delta):
 	$AnimationPlayer.play("Crawl")
 	
 	if(player.global_position.x > self.global_position.x):
-		$Sprite.set_flip_h(true)
+		$Sprite2D.set_flip_h(true)
 		$DeadSprite.set_flip_h(true)
 		$HurtHitArea/HitArea/CollisionShape2D.set_position(Vector2(13, -3))
 		$PositionPoint.set_position(Vector2(13, -3))
 	if(player.global_position.x < self.global_position.x):
-		$Sprite.set_flip_h(false)
+		$Sprite2D.set_flip_h(false)
 		$DeadSprite.set_flip_h(false)
 		$HurtHitArea/HitArea/CollisionShape2D.set_position(Vector2(-13, -3))
 		$PositionPoint.set_position(Vector2(-13, -3))
@@ -73,9 +77,11 @@ func move_state(delta):
 	direction = (player.global_position - global_position).normalized()
 	velocity = velocity.move_toward(direction * max_speed, speed * delta)
 	velocity.y += mass * gravity * delta
-	velocity = move_and_slide(velocity)
+	set_velocity(velocity)
+	move_and_slide()
+	velocity = velocity
 	
-	if($PositionPoint/Position2D.global_position.distance_to(player.get_node("PositionPoint/Position2D").global_position) <= 10.0):
+	if($PositionPoint/Marker2D.global_position.distance_to(player.get_node("PositionPoint/Marker2D").global_position) <= 10.0):
 		attack_state(delta)
 
 
@@ -102,7 +108,7 @@ func die():
 	$MassStompArea/StompHurtArea/CollisionShape2D.set_disabled(true)
 	$DetectionArea/DetectionArea/CollisionShape2D.set_disabled(true)
 	$EnemyDeathEffect.get_child(0).set_emitting(true)
-	$Sprite.set_visible(false)
+	$Sprite2D.set_visible(false)
 	$DeadSprite.set_visible(true)
 	
 
@@ -113,7 +119,7 @@ func _on_StompHurtArea_area_entered(area: Area2D) -> void:
 	
 	if(player_mass >= mass):
 		
-		var dmg_text_node = DMG_TEXT_NODE.instance()
+		var dmg_text_node = DMG_TEXT_NODE.instantiate()
 		
 		add_child(dmg_text_node)
 		
@@ -132,7 +138,7 @@ func _on_StompHurtArea_area_entered(area: Area2D) -> void:
 		health = health - dmg_taken
 		
 	elif(player_mass < mass):
-		var dmg_text_node = DMG_TEXT_NODE.instance()
+		var dmg_text_node = DMG_TEXT_NODE.instantiate()
 		
 		add_child(dmg_text_node)
 		
@@ -149,7 +155,7 @@ func _on_StompHurtArea_area_entered(area: Area2D) -> void:
 #Hurt Function
 func _on_HurtArea_area_entered(area: Area2D) -> void:
 	
-	var dmg_text_node = DMG_TEXT_NODE.instance()
+	var dmg_text_node = DMG_TEXT_NODE.instantiate()
 	
 	add_child(dmg_text_node)
 	

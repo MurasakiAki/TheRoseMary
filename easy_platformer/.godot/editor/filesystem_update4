@@ -1,0 +1,5 @@
+res://src/Levels/Level_1.tscn
+res://src/Player/Player.tscn
+res://src/Enemies/Maggot.tscn
+res://src/Levels/WorldScript.gd
+res://Assets/Particles/JumpParticles.tscn

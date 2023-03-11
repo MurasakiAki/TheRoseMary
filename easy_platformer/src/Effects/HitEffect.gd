@@ -10,13 +10,13 @@ func _ready():
 	self.position.y = rng.randi_range(-5, 5)
 	
 	if get_parent().get_parent().get_parent().name == "Player":
-		$Sprite.set_modulate(Color(1, 0, 0))
+		$Sprite2D.set_modulate(Color(1, 0, 0))
 	else:
-		$Sprite.set_modulate(Color(1, 1, 1))
+		$Sprite2D.set_modulate(Color(1, 1, 1))
 	$AnimationPlayer.play("Hit")
 	#print(str(position.x), str(position.y))
 
 
 
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(_anim_name):
 	self.queue_free()

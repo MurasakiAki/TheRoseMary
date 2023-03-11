@@ -1,11 +1,11 @@
 extends Node2D
 class_name Dummy
 
-export var mass = 1.0
+@export var mass = 1.0
 
 enum {IDLE, HURT}
 
-onready var DMG_TEXT_NODE = preload("res://src/UI/DamageText.tscn") 
+@onready var DMG_TEXT_NODE = preload("res://src/UI/DamageText.tscn") 
 
 var rng = RandomNumberGenerator.new()
 var state
@@ -19,17 +19,17 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	match state:
 		IDLE:
-			$AnimatedSprite.play("Idle")
+			$AnimatedSprite2D.play("Idle")
 		HURT:
-			$AnimatedSprite.play("Hurt")
-			if($AnimatedSprite.frame == 3):
+			$AnimatedSprite2D.play("Hurt")
+			if($AnimatedSprite2D.frame == 3):
 				state = IDLE
 	
 
 #Hurt function
 func _on_HurtArea_area_entered(area: Area2D) -> void:
 	
-	var dmg_text_node = DMG_TEXT_NODE.instance()
+	var dmg_text_node = DMG_TEXT_NODE.instantiate()
 	
 	add_child(dmg_text_node)
 	
@@ -42,9 +42,9 @@ func _on_HurtArea_area_entered(area: Area2D) -> void:
 	dmg_text_node.crit_color_change(is_crit)
 	
 	if(player_hit_area.get_child(0).position.x > $HurtHitArea/HurtArea/CollisionShape2D.position.x):
-		$AnimatedSprite.set_flip_h(false)
+		$AnimatedSprite2D.set_flip_h(false)
 	if(player_hit_area.get_child(0).position.x < $HurtHitArea/HurtArea/CollisionShape2D.position.x):
-		$AnimatedSprite.set_flip_h(true)
+		$AnimatedSprite2D.set_flip_h(true)
 	
 	rng.randomize()
 	var dmg_text_position_x = rng.randf_range(-5.5, 4.5)
@@ -76,7 +76,7 @@ func _on_StompHurtArea_area_entered(area: Area2D) -> void:
 	
 	if(player_mass >= mass):
 		
-		var dmg_text_node = DMG_TEXT_NODE.instance()
+		var dmg_text_node = DMG_TEXT_NODE.instantiate()
 		
 		add_child(dmg_text_node)
 		

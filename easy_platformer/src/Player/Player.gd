@@ -1,29 +1,29 @@
-extends KinematicBody2D
+extends CharacterBody2D
 class_name Player
 
 const UP_DIRECTION = Vector2.UP
 
-export var _speed = 40.0
-export var max_speed = 120
-export var acceleration = 220
-export var jump_strength = 320.0
-export var double_jump_strength = 250.0
-export var max_jumps = 1
-export var gravity = 100.0
-export var mass = 8.5
-export var max_health = 100.0 
-export var knockback = 5
-export var attack = 1
-export var crit_rate = 0.1
-export var crit_mult = 2
-export var is_mass_stomp_enabled = false
-export var mass_stomp_activation_speed = 300.0
-export var mass_stomp_mult = 0
+@export var _speed = 40.0
+@export var max_speed = 120
+@export var acceleration = 220
+@export var jump_strength = 320.0
+@export var double_jump_strength = 250.0
+@export var max_jumps = 1
+@export var gravity = 100.0
+@export var mass = 8.5
+@export var max_health = 100.0 
+@export var knockback = 5
+@export var attack = 1
+@export var crit_rate = 0.1
+@export var crit_mult = 2
+@export var is_mass_stomp_enabled = false
+@export var mass_stomp_activation_speed = 300.0
+@export var mass_stomp_mult = 0
 
 
 enum {MOVE, ATTACK}
 
-onready var JUMP_PARTICLES = preload("res://Assets/Particles/JumpParticles.tscn")
+@onready var JUMP_PARTICLES = preload("res://Assets/Particles/JumpParticles.tscn")
 
 var rng = RandomNumberGenerator.new()
 var _jumps_made = 0
@@ -45,7 +45,7 @@ var enemy
 
 func _ready() -> void:
 	$HitSprite.set_visible(false)
-	$HealthBar/TextureProgress.set_max(max_health)
+	$HealthBar/TextureProgressBar.set_max(max_health)
 	_health = max_health
 
 func _process(delta: float) -> void:
@@ -60,7 +60,9 @@ func _process(delta: float) -> void:
 	
 	#knockback on player doesnt work idk why kill me
 	#knockback_vector = knockback_vector.move_toward(Vector2.ZERO, friction * delta)
-	#knockback_vector = move_and_slide(knockback_vector)
+	set_velocity(knockback_vector)
+	move_and_slide()
+	#knockback_vector = velocity
 
 
 func die():
@@ -91,13 +93,13 @@ func move_state(delta):
 	_is_double_jumping = is_double_jumping
 	
 	if(Input.is_action_just_pressed("Left")):
-		$Sprite.set_flip_h(true)
+		$Sprite2D.set_flip_h(true)
 		$HurtHitArea/HitArea/CollisionShape2D.set_position(Vector2(-6.5, 0.5))
 		$HitSprite.set_flip_h(true)
 		$HitSprite.set_position(Vector2(-8.5, 0.5))
 		
 	elif(Input.is_action_just_pressed("Right")):
-		$Sprite.set_flip_h(false)
+		$Sprite2D.set_flip_h(false)
 		$HurtHitArea/HitArea/CollisionShape2D.set_position(Vector2(6.5, 0.5))
 		$HitSprite.set_flip_h(false)
 		$HitSprite.set_position(Vector2(8.5, 0.5))
@@ -136,7 +138,10 @@ func move_state(delta):
 	if(Input.is_action_just_pressed("Attack")):
 		state = ATTACK
 	
-	_velocity = move_and_slide(_velocity, UP_DIRECTION)
+	set_velocity(_velocity)
+	set_up_direction(UP_DIRECTION)
+	move_and_slide()
+	_velocity = velocity
 	
 
 func attack_state():
@@ -176,7 +181,7 @@ func _on_HurtArea_area_entered(area: Area2D) -> void:
 	#received_knockback = enemy_hit_area.get_child(0).knockback / mass
 	_health = _health - _dmg_taken
 	enemy = enemy_hit_area.get_parent().get_parent()
-	$HealthBar/TextureProgress.set_value(_health)
+	$HealthBar/TextureProgressBar.set_value(_health)
 	
 	knockback_direction = (enemy.global_position - global_position).normalized()
 	knockback_vector = -(knockback_direction * received_knockback)

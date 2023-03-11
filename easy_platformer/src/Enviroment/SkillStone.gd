@@ -1,13 +1,13 @@
 extends Node2D
 
-export var health = 10.0
-export var mass = 10.0
+@export var health = 10.0
+@export var mass = 10.0
 
-onready var DMG_TEXT_NODE = preload("res://src/UI/DamageText.tscn")
+@onready var DMG_TEXT_NODE = preload("res://src/UI/DamageText.tscn")
 
 #PickUps:
-onready var DOUBLE_JUMP = preload("res://src/PickUps/DoubleJumpPickUp.tscn")
-onready var MASS_STOMP = preload("res://src/PickUps/MassStompPickUp.tscn")
+@onready var DOUBLE_JUMP = preload("res://src/PickUps/DoubleJumpPickUp.tscn")
+@onready var MASS_STOMP = preload("res://src/PickUps/MassStompPickUp.tscn")
 
 var dmg_taken
 var rng = RandomNumberGenerator.new()
@@ -23,8 +23,8 @@ func die():
 	$HurtHitArea/HurtArea/CollisionShape2D.set_disabled(true)
 	$MassStompArea/StompHurtArea/CollisionShape2D.set_disabled(true)
 	$RockDestructionParticles.get_child(0).set_emitting(true)
-	$Sprite.set_texture(destroyed_texture)
-	$Sprite.set_position(Vector2(0, -8))
+	$Sprite2D.set_texture(destroyed_texture)
+	$Sprite2D.set_position(Vector2(0, -8))
 	is_dead = true
 
 func pickup_drop():
@@ -32,14 +32,14 @@ func pickup_drop():
 	var roll_number = rng.randf_range(0.0, 1.0)
 	
 	if(roll_number >= 0.5):
-		var double_jump = DOUBLE_JUMP.instance()
+		var double_jump = DOUBLE_JUMP.instantiate()
 		
 		add_child(double_jump)
 		
 		double_jump.set_position(Vector2(0, -30))
 		
 	elif(roll_number < 0.5):
-		var mass_stomp = MASS_STOMP.instance()
+		var mass_stomp = MASS_STOMP.instantiate()
 		
 		add_child(mass_stomp)
 		
@@ -47,7 +47,7 @@ func pickup_drop():
 
 #Hurt Function
 func _on_HurtArea_area_entered(area: Area2D) -> void:
-	var dmg_text_node = DMG_TEXT_NODE.instance()
+	var dmg_text_node = DMG_TEXT_NODE.instantiate()
 	
 	add_child(dmg_text_node)
 	
@@ -76,7 +76,7 @@ func _on_StompHurtArea_area_entered(area: Area2D) -> void:
 	
 	if(player_mass >= mass):
 		
-		var dmg_text_node = DMG_TEXT_NODE.instance()
+		var dmg_text_node = DMG_TEXT_NODE.instantiate()
 		
 		add_child(dmg_text_node)
 		
@@ -95,7 +95,7 @@ func _on_StompHurtArea_area_entered(area: Area2D) -> void:
 		health = health - dmg_taken
 		
 	elif(player_mass < mass):
-		var dmg_text_node = DMG_TEXT_NODE.instance()
+		var dmg_text_node = DMG_TEXT_NODE.instantiate()
 		
 		add_child(dmg_text_node)
 		

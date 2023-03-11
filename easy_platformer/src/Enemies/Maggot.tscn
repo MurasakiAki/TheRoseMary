@@ -1,142 +1,152 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=3 uid="uid://dtaqr2e8idp1p"]
 
-[ext_resource path="res://Assets/Enemy/maggot.png" type="Texture" id=1]
-[ext_resource path="res://src/Areas/HurtHitArea.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/Areas/MassStompArea.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/Enemies/Maggot.gd" type="Script" id=4]
-[ext_resource path="res://src/Areas/DetectionArea.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Assets/Particles/EnemyDeathEffect.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Assets/Enemy/dead_maggot.png" type="Texture" id=7]
-[ext_resource path="res://src/Areas/PositionPoint.tscn" type="PackedScene" id=8]
+[ext_resource type="Texture2D" uid="uid://cc7prnkngk42t" path="res://Assets/Enemy/maggot.png" id="1"]
+[ext_resource type="PackedScene" path="res://src/Areas/HurtHitArea.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://src/Areas/MassStompArea.tscn" id="3"]
+[ext_resource type="Script" path="res://src/Enemies/Maggot.gd" id="4"]
+[ext_resource type="PackedScene" path="res://src/Areas/DetectionArea.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://Assets/Particles/EnemyDeathEffect.tscn" id="6"]
+[ext_resource type="Texture2D" uid="uid://cpwwv4l0nelc3" path="res://Assets/Enemy/dead_maggot.png" id="7"]
+[ext_resource type="PackedScene" path="res://src/Areas/PositionPoint.tscn" id="8"]
 
-[sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 77, 49 )
+[sub_resource type="RectangleShape2D" id="9"]
+size = Vector2(77, 49)
 
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 15.5, 3.25 )
+[sub_resource type="RectangleShape2D" id="5"]
+size = Vector2(15.625, 2.375)
 
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 15.5, 6 )
+[sub_resource type="RectangleShape2D" id="6"]
+size = Vector2(15.3061, 6)
 
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 3, 3 )
+[sub_resource type="RectangleShape2D" id="8"]
+size = Vector2(7, 3)
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 9.5, 3 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(9.74027, 3.06122)
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id="4"]
 resource_name = "Crawl"
-loop = true
 step = 0.25
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [ 0, 1, 2, 1 ]
+"values": [0, 1, 2, 1]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id="2"]
 resource_name = "Idle"
-loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ 0, 0 ]
+"values": [0, 0]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id="3"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ 0 ]
+"values": [0]
 }
 
-[node name="Maggot" type="KinematicBody2D"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpnfg"]
+_data = {
+"Crawl": SubResource("4"),
+"Idle": SubResource("2"),
+"RESET": SubResource("3")
+}
+
+[node name="Maggot" type="CharacterBody2D"]
 z_index = -1
 collision_layer = 4
 collision_mask = 2
-script = ExtResource( 4 )
+script = ExtResource("4")
 
-[node name="DetectionArea" parent="." instance=ExtResource( 5 )]
+[node name="DetectionArea" parent="." instance=ExtResource("5")]
 
 [node name="DetectionArea" parent="DetectionArea" index="0"]
-position = Vector2( 0, -6 )
+position = Vector2(0, -6)
 
 [node name="CollisionShape2D" parent="DetectionArea/DetectionArea" index="0"]
-shape = SubResource( 9 )
+scale = Vector2(2.36, 0.520001)
+shape = SubResource("9")
 
-[node name="MassStompArea" parent="." instance=ExtResource( 3 )]
+[node name="MassStompArea" parent="." instance=ExtResource("3")]
 
 [node name="CollisionShape2D" parent="MassStompArea/StompHurtArea" index="0"]
-position = Vector2( 0.5, -8.75 )
-shape = SubResource( 5 )
+position = Vector2(0, -6)
+scale = Vector2(1.92, 1)
+shape = SubResource("5")
 
-[node name="HurtHitArea" parent="." instance=ExtResource( 2 )]
+[node name="HurtHitArea" parent="." instance=ExtResource("2")]
 
 [node name="HurtArea" parent="HurtHitArea" index="0"]
 collision_layer = 1024
 collision_mask = 16
 
 [node name="CollisionShape2D" parent="HurtHitArea/HurtArea" index="0"]
-position = Vector2( 0.5, -6 )
-shape = SubResource( 6 )
+position = Vector2(0, -3)
+scale = Vector2(1.96, 1)
+shape = SubResource("6")
 
 [node name="HitArea" parent="HurtHitArea" index="1"]
 collision_layer = 512
 collision_mask = 8
 
 [node name="CollisionShape2D" parent="HurtHitArea/HitArea" index="0"]
-position = Vector2( -12, -3 )
-shape = SubResource( 8 )
+position = Vector2(-13.5, -3)
+scale = Vector2(1, 2)
+shape = SubResource("8")
 
-[node name="PositionPoint" parent="." instance=ExtResource( 8 )]
+[node name="PositionPoint" parent="." instance=ExtResource("8")]
 
-[node name="Position2D" parent="PositionPoint" index="0"]
-position = Vector2( -13, -3 )
+[node name="Marker2D" parent="PositionPoint" index="0"]
+position = Vector2(-13, -3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.5, -3 )
-shape = SubResource( 1 )
+position = Vector2(0, -3)
+scale = Vector2(3.08, 1.96)
+shape = SubResource("1")
 
-[node name="EnemyDeathEffect" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, -3 )
+[node name="EnemyDeathEffect" parent="." instance=ExtResource("6")]
+position = Vector2(0, -3)
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -8 )
-texture = ExtResource( 1 )
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("1")
 vframes = 3
 
-[node name="DeadSprite" type="Sprite" parent="."]
+[node name="DeadSprite" type="Sprite2D" parent="."]
 visible = false
-position = Vector2( 0, -8 )
-texture = ExtResource( 7 )
+position = Vector2(0, -8)
+texture = ExtResource("7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Crawl = SubResource( 4 )
-anims/Idle = SubResource( 2 )
-anims/RESET = SubResource( 3 )
+libraries = {
+"": SubResource("AnimationLibrary_vpnfg")
+}
 
 [connection signal="body_entered" from="DetectionArea/DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="body_exited" from="DetectionArea/DetectionArea" to="." method="_on_DetectionArea_body_exited"]

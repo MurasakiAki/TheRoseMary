@@ -1,23 +1,25 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://2itp81v2u5fa"]
 
-[ext_resource path="res://Assets/Particles/dust_particles.png" type="Texture" id=1]
+[ext_resource type="Texture2D" uid="uid://bcbxkpwgnmsxa" path="res://Assets/Particles/dust_particles.png" id="1"]
 
 [node name="JumpParticles" type="Node2D"]
+rotation = 1.57079
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 emitting = false
-amount = 10
+amount = 25
+lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 lifetime_randomness = 1.0
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 emission_shape = 1
-emission_sphere_radius = 8.0
-gravity = Vector2( 0, 0 )
-radial_accel = 20.0
-radial_accel_random = 1.0
-angle = 720.0
-angle_random = 1.0
-scale_amount = 2.0
-scale_amount_random = 1.0
+emission_sphere_radius = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 64.52
+initial_velocity_max = 64.52
+damping_min = 1.0
+damping_max = 2.0
+angle_max = 720.0
+scale_amount_max = 3.0

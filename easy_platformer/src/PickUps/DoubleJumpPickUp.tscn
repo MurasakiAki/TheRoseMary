@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Assets/PickUps/double_jump_pick_up.png" type="Texture" id=1]
+[ext_resource path="res://Assets/PickUps/double_jump_pick_up.png" type="Texture2D" id=1]
 [ext_resource path="res://Assets/Particles/PickUpParticles.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/PickUps/DoubleJumpPickUpScript.gd" type="Script" id=3]
 [ext_resource path="res://src/Areas/PickUpArea.tscn" type="PackedScene" id=4]
@@ -13,14 +13,14 @@ resource_name = "Idle"
 length = 2.0
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:position")
+tracks/0/path = NodePath("Sprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 1, 2 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 2 ), Vector2( 0, -2 ), Vector2( 0, 2 ) ]
 }
@@ -28,14 +28,14 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=3]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:position")
+tracks/0/path = NodePath("Sprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 0, 2 ) ]
 }
@@ -44,25 +44,25 @@ tracks/0/keys = {
 z_index = -1
 script = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2( 0, 2 )
 z_index = -1
 texture = ExtResource( 1 )
 
-[node name="PickUpArea" parent="Sprite" instance=ExtResource( 4 )]
+[node name="PickUpArea" parent="Sprite2D" instance=ExtResource( 4 )]
 
-[node name="CollisionShape2D" parent="Sprite/PickUpArea/Area2D" index="0"]
+[node name="CollisionShape2D" parent="Sprite2D/PickUpArea/Area2D" index="0"]
 shape = SubResource( 4 )
 is_health = false
 is_mass_stomp = false
 
-[node name="PickUpParticles" parent="Sprite" instance=ExtResource( 2 )]
+[node name="PickUpParticles" parent="Sprite2D" instance=ExtResource( 2 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
 anims/Idle = SubResource( 2 )
 anims/RESET = SubResource( 3 )
 
-[connection signal="area_entered" from="Sprite/PickUpArea/Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="area_entered" from="Sprite2D/PickUpArea/Area2D" to="." method="_on_Area2D_area_entered"]
 
-[editable path="Sprite/PickUpArea"]
+[editable path="Sprite2D/PickUpArea"]
