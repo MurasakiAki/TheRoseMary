@@ -1,0 +1,38 @@
+extends Mob
+
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var player_detected: bool = false
+var properties = Properties.new()
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	properties.set_speed(100)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	
+	use_gravity(delta, gravity)
+	
+	if player_detected:
+		move(delta, properties)
+	else:
+		stop(delta, properties)
+	
+	if get_direction() == -1:
+		$Mob/Body/Sprite2D.set_flip_h(false)
+	elif get_direction() == 1:
+		$Mob/Body/Sprite2D.set_flip_h(true)
+	
+	if is_moving():
+		$AnimationPlayer.play("Move")
+	else:
+		$AnimationPlayer.play("Idle")
+
+#Detecting player
+func _on_area_2d_body_entered(body):
+	if body.name == "Player":
+		player_detected = true
+
+func _on_area_2d_body_exited(body):
+	if body.name == "Player":
+		player_detected = false

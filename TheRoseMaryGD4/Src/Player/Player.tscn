@@ -1,0 +1,124 @@
+[gd_scene load_steps=12 format=3 uid="uid://bt5oxexxqnm0f"]
+
+[ext_resource type="Texture2D" uid="uid://doa4g2ljmh1ks" path="res://Assets/Player/player_sprite.png" id="1_h7ibw"]
+[ext_resource type="Script" path="res://Src/Scripts/Player.gd" id="1_jwq0i"]
+[ext_resource type="PackedScene" uid="uid://bqpk2bpvmerbn" path="res://Src/Mob/Body.tscn" id="2_y100b"]
+[ext_resource type="Script" path="res://Src/Scripts/PlayerProperties.gd" id="3_h4sjj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bm45h"]
+size = Vector2(6, 14)
+
+[sub_resource type="Animation" id="Animation_cxntp"]
+resource_name = "Falling"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_55rp1"]
+resource_name = "Idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_lppn6"]
+resource_name = "Jump"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [5, 6]
+}
+
+[sub_resource type="Animation" id="Animation_53q2n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_xq0jd"]
+resource_name = "Run"
+length = 0.8
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3uclh"]
+_data = {
+"Falling": SubResource("Animation_cxntp"),
+"Idle": SubResource("Animation_55rp1"),
+"Jump": SubResource("Animation_lppn6"),
+"RESET": SubResource("Animation_53q2n"),
+"Run": SubResource("Animation_xq0jd")
+}
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_jwq0i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_bm45h")
+
+[node name="Body" parent="." instance=ExtResource("2_y100b")]
+position = Vector2(0, -8)
+script = ExtResource("3_h4sjj")
+
+[node name="Sprite2D" parent="Body" index="0"]
+texture = ExtResource("1_h7ibw")
+hframes = 8
+vframes = 8
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+libraries = {
+"": SubResource("AnimationLibrary_3uclh")
+}
+
+[editable path="Body"]

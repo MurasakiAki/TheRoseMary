@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqpk2bpvmerbn"]
+
+[ext_resource type="PackedScene" uid="uid://c5u1em2um6kxy" path="res://Src/Mob/HitArea.tscn" id="1_nvsyx"]
+
+[node name="Body" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="HitArea" parent="." instance=ExtResource("1_nvsyx")]
