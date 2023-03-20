@@ -6,33 +6,32 @@ var properties = Properties.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	properties.set_speed(100)
+	properties.set_speed(80)
+	properties.damage_range = Vector2(5, 10)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
 	use_gravity(delta, gravity)
+	sprite_control(properties)
 	
 	if player_detected:
 		move(delta, properties)
 	else:
 		stop(delta, properties)
 	
-	if get_direction() == -1:
-		$Mob/Body/Sprite2D.set_flip_h(false)
-	elif get_direction() == 1:
-		$Mob/Body/Sprite2D.set_flip_h(true)
-	
-	if is_moving():
-		$AnimationPlayer.play("Move")
-	else:
-		$AnimationPlayer.play("Idle")
 
 #Detecting player
 func _on_area_2d_body_entered(body):
 	if body.name == "Player":
 		player_detected = true
+	
 
 func _on_area_2d_body_exited(body):
 	if body.name == "Player":
 		player_detected = false
+	
+
+func _on_hit_area_2d_body_entered(body):
+	if body.name == "Player":
+		var player = body
+		player.take_damage(attack(properties))

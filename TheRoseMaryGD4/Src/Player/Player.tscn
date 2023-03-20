@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://bt5oxexxqnm0f"]
+[gd_scene load_steps=11 format=3 uid="uid://bt5oxexxqnm0f"]
 
 [ext_resource type="Texture2D" uid="uid://doa4g2ljmh1ks" path="res://Assets/Player/player_sprite.png" id="1_h7ibw"]
 [ext_resource type="Script" path="res://Src/Scripts/Player.gd" id="1_jwq0i"]
 [ext_resource type="PackedScene" uid="uid://bqpk2bpvmerbn" path="res://Src/Mob/Body.tscn" id="2_y100b"]
-[ext_resource type="Script" path="res://Src/Scripts/PlayerProperties.gd" id="3_h4sjj"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bm45h"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyvpa"]
 size = Vector2(6, 14)
 
 [sub_resource type="Animation" id="Animation_cxntp"]
@@ -97,15 +96,16 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 2
 script = ExtResource("1_jwq0i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_bm45h")
+shape = SubResource("RectangleShape2D_cyvpa")
 
 [node name="Body" parent="." instance=ExtResource("2_y100b")]
 position = Vector2(0, -8)
-script = ExtResource("3_h4sjj")
 
 [node name="Sprite2D" parent="Body" index="0"]
 texture = ExtResource("1_h7ibw")

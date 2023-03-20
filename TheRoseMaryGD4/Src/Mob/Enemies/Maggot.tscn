@@ -1,8 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://dwmqxlkcfgrlo"]
+[gd_scene load_steps=11 format=3 uid="uid://dwmqxlkcfgrlo"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Maggot.gd" id="1_1uy68"]
 [ext_resource type="PackedScene" uid="uid://cs32mkvurek1a" path="res://Src/Mob/Mob.tscn" id="1_2bvr4"]
 [ext_resource type="Texture2D" uid="uid://cc7prnkngk42t" path="res://Assets/Enemy/maggot.png" id="3_ns56b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_okicp"]
+size = Vector2(7, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j61in"]
 size = Vector2(256, 16)
@@ -66,6 +69,7 @@ _data = {
 }
 
 [node name="Maggot" type="CharacterBody2D"]
+collision_layer = 4
 script = ExtResource("1_1uy68")
 
 [node name="Mob" parent="." instance=ExtResource("1_2bvr4")]
@@ -74,6 +78,10 @@ script = ExtResource("1_1uy68")
 position = Vector2(0, -8)
 texture = ExtResource("3_ns56b")
 vframes = 3
+
+[node name="CollisionShape2D" parent="Mob/Body/HitArea/Area2D" index="0"]
+position = Vector2(-18.5, -4)
+shape = SubResource("RectangleShape2D_okicp")
 
 [node name="DetectionArea" parent="Mob" index="1"]
 position = Vector2(0, -6)
@@ -92,9 +100,11 @@ libraries = {
 "": SubResource("AnimationLibrary_ikv4l")
 }
 
+[connection signal="body_entered" from="Mob/Body/HitArea/Area2D" to="." method="_on_hit_area_2d_body_entered"]
 [connection signal="body_entered" from="Mob/DetectionArea/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Mob/DetectionArea/Area2D" to="." method="_on_area_2d_body_exited"]
 
 [editable path="Mob"]
 [editable path="Mob/Body"]
+[editable path="Mob/Body/HitArea"]
 [editable path="Mob/DetectionArea"]
