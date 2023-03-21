@@ -54,6 +54,9 @@ func take_damage(attack: Attack):
 		die()
 
 func die():
-	var death_screen = load("res://Src/Player/DeathAnimation.tscn").instantiate()
+	var death_screen = preload("res://Src/Player/DeathAnimation.tscn")
+	var death_screen_instance = death_screen.instantiate()
+	var player = get_tree().get_current_scene().get_node("Player")
 	
-	#set it to player scene
+	player.add_child(death_screen_instance)
+	

@@ -7,7 +7,7 @@ var properties = Properties.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	properties.set_speed(80)
-	properties.damage_range = Vector2(5, 10)
+	properties.damage_range = Vector2(50, 100)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

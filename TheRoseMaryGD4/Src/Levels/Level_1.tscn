@@ -17,4 +17,7 @@ layer_0/tile_data = PackedInt32Array(262154, 65536, 2, 196618, 65536, 0, 262153,
 [node name="Maggot" parent="." instance=ExtResource("3_2o426")]
 position = Vector2(176, 24)
 
+[node name="Maggot2" parent="." instance=ExtResource("3_2o426")]
+position = Vector2(-64, 24)
+
 [editable path="WorldAccessories"]
