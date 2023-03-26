@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://b84vqtijraiui"]
 
-[ext_resource type="FontFile" uid="uid://bcsge6egdv4dw" path="res://Assets/Fonts/TakeCoffee-RpOA3.ttf" id="1_n7lb4"]
 [ext_resource type="Script" path="res://Src/Scripts/DeathAnimation.gd" id="1_utmg1"]
 [ext_resource type="Texture2D" uid="uid://cqx5562h35qen" path="res://Assets/Shaders/black_screen.png" id="2_qft8b"]
+[ext_resource type="FontFile" uid="uid://cp7kk0her5he6" path="res://Assets/Fonts/RoseMary.woff" id="2_ytn7g"]
 
 [sub_resource type="Theme" id="Theme_4hi34"]
-default_font = ExtResource("1_n7lb4")
+default_font = ExtResource("2_ytn7g")
 
 [sub_resource type="Animation" id="Animation_1ups2"]
 resource_name = "DeathAnimation"
